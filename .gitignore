@@ -1,0 +1,11 @@
+results/
+data/
+venv/
+__pycache__/
+*.pkl
+*.pyc
+*.pyo
+.env
+*.log
+2411.09847v3.pdf
+Investigación Fairer-NMF*.md
