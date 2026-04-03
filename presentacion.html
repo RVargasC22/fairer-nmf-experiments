@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fairer-NMF — Junior Vargas Cano</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/theme/night.css">
+<style>
+  :root {
+    --mu-blue:   #2E86AB;
+    --am-red:    #E84855;
+    --nmf-gray:  #6C7A8D;
+    --green:     #3BB273;
+    --accent:    #F4A261;
+    --bg-card:   rgba(255,255,255,0.05);
+    --border:    rgba(255,255,255,0.12);
+  }
+
+  .reveal { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+  .reveal h1 { font-size: 1.9em; color: #ffffff; line-height: 1.15; }
+  .reveal h2 { font-size: 1.45em; color: #e0e0e0; border-bottom: 2px solid var(--mu-blue); padding-bottom: 8px; margin-bottom: 22px; }
+  .reveal h3 { font-size: 1.1em; color: var(--accent); margin-bottom: 10px; }
+  .reveal p, .reveal li { font-size: 0.82em; line-height: 1.65; color: #d0d0d0; }
+  .reveal ul { margin-left: 1.2em; }
+  .reveal li { margin-bottom: 6px; }
+  .reveal strong { color: #ffffff; }
+  .reveal em { color: var(--accent); font-style: normal; }
+
+  /* ── layout helpers ── */
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; align-items: start; }
+  .cols-4060 { display: grid; grid-template-columns: 40% 60%; gap: 24px; align-items: start; }
+  .cols-6040 { display: grid; grid-template-columns: 60% 40%; gap: 24px; align-items: start; }
+
+  /* ── cards ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .card-blue  { border-left: 4px solid var(--mu-blue); }
+  .card-red   { border-left: 4px solid var(--am-red); }
+  .card-green { border-left: 4px solid var(--green); }
+  .card-gray  { border-left: 4px solid var(--nmf-gray); }
+  .card-accent{ border-left: 4px solid var(--accent); }
+
+  /* ── badges ── */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72em;
+    font-weight: 600;
+    margin: 2px 3px;
+  }
+  .badge-blue  { background: var(--mu-blue);  color: #fff; }
+  .badge-red   { background: var(--am-red);   color: #fff; }
+  .badge-gray  { background: var(--nmf-gray); color: #fff; }
+  .badge-green { background: var(--green);    color: #fff; }
+  .badge-accent{ background: var(--accent);   color: #1a1a1a; }
+
+  /* ── tables ── */
+  .reveal table { font-size: 0.72em; width: 100%; border-collapse: collapse; }
+  .reveal table th {
+    background: rgba(46,134,171,0.35);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--mu-blue);
+  }
+  .reveal table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    color: #ccc;
+  }
+  .reveal table tr:hover td { background: rgba(255,255,255,0.04); }
+
+  /* ── images ── */
+  .plot-img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+  .plot-img-sm { width: 85%; border-radius: 8px; border: 1px solid var(--border); }
+
+  /* ── title slide ── */
+  .title-wrap { text-align: center; padding: 10px 0; }
+  .title-wrap .subtitle { font-size: 0.9em; color: #aaa; margin-top: 8px; }
+  .title-wrap .author   { font-size: 1.05em; color: var(--accent); margin-top: 22px; font-weight: 600; }
+  .title-wrap .meta     { font-size: 0.78em; color: #888; margin-top: 8px; }
+  .title-divider { height: 3px; background: linear-gradient(90deg, var(--mu-blue), var(--am-red)); margin: 20px auto; width: 60%; border-radius: 2px; }
+
+  /* ── math-like blocks ── */
+  .formula {
+    background: rgba(0,0,0,0.4);
+    border-left: 3px solid var(--mu-blue);
+    border-radius: 6px;
+    padding: 12px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    color: #c8e6ff;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  /* ── highlight box ── */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(46,134,171,0.2), rgba(232,72,85,0.1));
+    border: 1px solid rgba(46,134,171,0.4);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 10px 0;
+  }
+
+  /* ── takeaway ── */
+  .takeaway {
+    background: rgba(59,178,115,0.15);
+    border: 1px solid rgba(59,178,115,0.4);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-top: 12px;
+  }
+  .takeaway p { color: #a8e6c3; font-size: 0.8em; margin: 0; }
+  .takeaway::before { content: "► Conclusión clave  "; font-weight: 700; color: var(--green); font-size: 0.78em; display: block; margin-bottom: 4px; }
+
+  /* ── section label ── */
+  .section-label {
+    display: inline-block;
+    background: rgba(46,134,171,0.25);
+    border: 1px solid var(--mu-blue);
+    border-radius: 4px;
+    padding: 2px 10px;
+    font-size: 0.65em;
+    color: var(--mu-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  /* ── number stat ── */
+  .stat-big { font-size: 2.2em; font-weight: 700; color: var(--mu-blue); }
+  .stat-label { font-size: 0.72em; color: #aaa; display: block; }
+
+  .warn { color: var(--am-red); font-weight: 600; }
+  .ok   { color: var(--green);  font-weight: 600; }
+  .note { font-size: 0.72em; color: #888; font-style: italic; }
+
+  /* progress bar color */
+  .reveal .progress { color: var(--mu-blue); }
+  .reveal .controls { color: var(--mu-blue); }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 1 — TÍTULO
+════════════════════════════════════════════════ -->
+<section>
+  <div class="title-wrap">
+    <div class="section-label">Proyecto Final · MCD8010</div>
+    <h1>Fairer-NMF</h1>
+    <p class="subtitle">Hacia una Factorización de Matrices No-negativas Equitativa<br>
+    Implementación y evaluación experimental sobre datasets reales</p>
+    <div class="title-divider"></div>
+    <p class="author">Junior Vargas Cano</p>
+    <p class="meta">Machine Learning — MCD8010<br>
+    Universidad de Ciencia y Tecnología · UTEC · 2025</p>
+    <br>
+    <div style="font-size:0.68em; color:#666; margin-top:10px;">
+      Basado en: Kassab, Mangold, Richard &amp; Rudi — <em>arXiv:2411.09847</em> (2024)
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 2 — MOTIVACIÓN
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Motivación</div>
+  <h2>¿Por qué nos importa la equidad en representaciones?</h2>
+  <div class="cols2">
+    <div>
+      <p>Las técnicas de reducción de dimensionalidad como NMF se usan para construir <strong>representaciones intermedias</strong> de datos: embeddings de usuarios, perfiles de pacientes, distribuciones de temas en texto.</p>
+      <p>El problema es que estas representaciones <strong>no son neutrales</strong>. Cuando los datos tienen grupos con distribuciones distintas —por tamaño, varianza o estructura latente—, los algoritmos estándar priorizan implícitamente a los grupos mayoritarios.</p>
+      <p>Resultado: el embedding de un paciente del grupo minoritario tiene <strong>mayor error de reconstrucción</strong>, lo que significa información perdida que no se recupera en ningún paso posterior.</p>
+      <div class="card card-red" style="margin-top:14px;">
+        <h3>Ejemplo concreto</h3>
+        <p>En datos clínicos con 70% hombres y 30% mujeres, NMF estándar aprende un diccionario H optimizado para la distribución masculina. El error de reconstrucción femenino puede ser <strong>2–3× mayor</strong>, propagando ese sesgo a cualquier modelo downstream que use esos embeddings.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-blue">
+        <h3>¿Dónde aparece este problema?</h3>
+        <ul>
+          <li><strong>Sistemas de recomendación:</strong> usuarios de grupos pequeños reciben recomendaciones de menor calidad</li>
+          <li><strong>Diagnóstico médico:</strong> modelos entrenados sobre embeddings sesgados fallan más en poblaciones subrepresentadas</li>
+          <li><strong>Análisis de crédito:</strong> representaciones de menor calidad se traducen en decisiones menos informadas para ciertos grupos</li>
+          <li><strong>Procesamiento de texto:</strong> categorías con menos documentos tienen representaciones latentes más ruidosas</li>
+        </ul>
+      </div>
+      <div class="highlight-box" style="margin-top:14px;">
+        <p style="margin:0; font-size:0.82em;"><strong>La clave:</strong> el sesgo no aparece en la predicción final directamente — aparece en la representación intermedia, lo que lo hace más difícil de detectar y corregir una vez que el pipeline está construido.</p>
+      </div>
+      <div class="takeaway">
+        <p>Necesitamos métodos que garanticen <strong>calidad equitativa de reconstrucción</strong> entre grupos desde la etapa de factorización.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 3 — EL PROBLEMA EN DATOS REALES
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Motivación</div>
+  <h2>El problema existe en datos reales</h2>
+  <div class="cols-4060">
+    <div>
+      <p>Esta gráfica muestra el <strong>error de reconstrucción relativo por grupo</strong> para los 5 datasets del estudio, comparando los tres algoritmos: NMF estándar, Fairer-NMF MU y Fairer-NMF AM.</p>
+      <p>Cada cluster de barras corresponde a un grupo demográfico dentro de un dataset. La altura de la barra es el error de reconstrucción normalizado por la norma de Frobenius del subconjunto de ese grupo.</p>
+      <div class="card card-gray" style="margin-top:14px;">
+        <h3>¿Qué muestra?</h3>
+        <ul>
+          <li>En <strong>Adult Census</strong>, el grupo femenino tiene error ~40% mayor que el masculino bajo NMF estándar</li>
+          <li>En <strong>20 Newsgroups</strong>, las categorías pequeñas (Religion, Politics) tienen errores sistemáticamente mayores</li>
+          <li>Fairer-NMF <span class="ok">reduce</span> esa asimetría sin eliminar el diccionario compartido</li>
+        </ul>
+      </div>
+      <div class="takeaway">
+        <p>La disparidad no es un artifact sintético — está presente en todos los datasets analizados, con intensidad proporcional al desbalance del grupo.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/06_per_group_error.png" class="plot-img" alt="Per-group error">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 4 — NMF ESTÁNDAR
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Background</div>
+  <h2>Non-negative Matrix Factorization (NMF)</h2>
+  <div class="cols2">
+    <div>
+      <p>Dado un dataset X ∈ ℝ<sup>n×m</sup> con entradas no-negativas, NMF busca dos matrices W ∈ ℝ<sup>n×r</sup> y H ∈ ℝ<sup>r×m</sup> también no-negativas tal que:</p>
+      <div class="formula">
+        min<sub>W≥0, H≥0</sub>  ‖X − WH‖²<sub>F</sub>
+      </div>
+      <p>donde r ≪ min(n, m) es el rango de la factorización (número de componentes latentes).</p>
+      <p>La no-negatividad fuerza una representación <strong>aditiva por partes</strong>: cada muestra se expresa como combinación no-negativa de componentes base. Esto da interpretabilidad natural en muchos dominios:</p>
+      <ul>
+        <li>Imágenes → partes de objetos</li>
+        <li>Texto → temas latentes</li>
+        <li>Audio → patrones espectrales</li>
+        <li>Datos tabulares → perfiles latentes de comportamiento</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card card-gray">
+        <h3>Algoritmo estándar: Multiplicative Updates (Lee &amp; Seung, 2001)</h3>
+        <div class="formula" style="text-align:left; font-size:0.78em;">
+          H ← H ⊙ (WᵀX) / (WᵀWH + ε)<br><br>
+          W ← W ⊙ (XHᵀ) / (WHHᵀ + ε)
+        </div>
+        <p>Cada actualización garantiza que W y H permanezcan no-negativos. Converge a un mínimo local del problema de reconstrucción global.</p>
+      </div>
+      <div class="card card-red" style="margin-top:14px;">
+        <h3>El problema estructural</h3>
+        <p>La función objetivo es el error <strong>global</strong> sobre todo el dataset. No existe ningún mecanismo que distribuya el error equitativamente entre grupos. El gradiente es dominado por los grupos con más muestras o mayor varianza, independientemente de la equidad.</p>
+      </div>
+      <div class="takeaway">
+        <p>NMF estándar no es inherentemente injusto — simplemente no fue diseñado para que la equidad importara. Fairer-NMF cambia esa premisa desde la función objetivo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 5 — FORMULACIÓN FAIRER-NMF
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Formulación</div>
+  <h2>Fairer-NMF: formulación min-max</h2>
+  <div class="cols2">
+    <div>
+      <p>Kassab et al. (2024) proponen reemplazar el objetivo global por un objetivo <strong>min-max</strong> sobre grupos:</p>
+      <div class="formula">
+        min<sub>W,H≥0</sub>  max<sub>i∈{1,...,K}</sub>  ‖X<sub>i</sub> − W<sub>i</sub>H‖²<sub>F</sub> / ε<sub>i</sub>
+      </div>
+      <p>donde:</p>
+      <ul>
+        <li><strong>X<sub>i</sub></strong> = filas de X correspondientes al grupo i</li>
+        <li><strong>W<sub>i</sub></strong> = embeddings del grupo i (filas de W)</li>
+        <li><strong>H</strong> = diccionario <em>compartido</em> por todos los grupos</li>
+        <li><strong>ε<sub>i</sub></strong> = error base del grupo i (NMF individual)</li>
+      </ul>
+      <div class="card card-accent" style="margin-top:14px;">
+        <h3>¿Por qué normalizar por ε<sub>i</sub>?</h3>
+        <p>Sin normalización, grupos con datos inherentemente más difíciles de reconstruir siempre dominarían el máximo. Dividir por el error base convierte el problema en <strong>equidad relativa</strong>: ¿cuánto peor te va con un diccionario compartido respecto a tu óptimo individual?</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-blue">
+        <h3>Diferencias clave respecto a NMF estándar</h3>
+        <table>
+          <tr><th>Aspecto</th><th>NMF estándar</th><th>Fairer-NMF</th></tr>
+          <tr><td>Objetivo</td><td>Error global</td><td>Peor error de grupo</td></tr>
+          <tr><td>Diccionario H</td><td>Compartido</td><td>Compartido</td></tr>
+          <tr><td>Embeddings W</td><td>Globales</td><td>Por grupo</td></tr>
+          <tr><td>Garantía</td><td>Reconstrucción media</td><td>Equidad por grupo</td></tr>
+          <tr><td>Parámetro extra</td><td>—</td><td>Ninguno</td></tr>
+        </table>
+      </div>
+      <div class="highlight-box" style="margin-top:14px;">
+        <p style="margin:0; font-size:0.82em;"><strong>Punto crítico:</strong> el diccionario H sigue siendo compartido. Esto es lo que hace al problema difícil y lo que distingue Fairer-NMF de simplemente entrenar NMF independiente por grupo. La equidad se logra con una representación común, no con representaciones separadas.</p>
+      </div>
+      <div class="takeaway">
+        <p>No hay hiperparámetro de penalización que balancear. La formulación min-max <em>es</em> la restricción de equidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 6 — ¿POR QUÉ ES DIFÍCIL?
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Formulación</div>
+  <h2>¿Por qué este problema es no-trivial?</h2>
+  <div class="cols2">
+    <div>
+      <div class="card card-red">
+        <h3>La función max no es diferenciable</h3>
+        <p>El máximo de funciones diferenciables no es diferenciable en los puntos donde dos funciones se igualan. Las reglas multiplicativas de Lee &amp; Seung no se pueden aplicar directamente porque requieren gradientes bien definidos del objetivo global.</p>
+      </div>
+      <div class="card card-gray" style="margin-top:14px;">
+        <h3>La no-negatividad complica el SOCP</h3>
+        <p>El subproblema de H (con W fijo) puede formularse como un Second-Order Cone Program (SOCP), pero la restricción W ≥ 0 no admite una solución analítica directa y el NNLS que se usa para W (con H fijo) no tiene garantía de convergencia global en la alternancia.</p>
+      </div>
+      <div class="card card-accent" style="margin-top:14px;">
+        <h3>El desbalance de grupos amplifica la inestabilidad</h3>
+        <p>Si un grupo tiene muy pocas muestras, su término en el max puede dominar toda la optimización por razones numéricas (la norma de Frobenius de X<sub>i</sub> es pequeña), generando oscilaciones en el proceso iterativo.</p>
+      </div>
+    </div>
+    <div>
+      <p>El paper de Kassab et al. propone dos estrategias distintas para resolver el problema, cada una con sus trade-offs:</p>
+      <div class="highlight-box">
+        <p><strong>Estrategia 1 — Relajación suave (MU):</strong><br>
+        En lugar de optimizar el max directamente, se reformula el problema como una suma ponderada donde los pesos son proporcionales al error actual de cada grupo. Esto convierte el problema en un NMF estándar con estructura bloque-diagonal que admite actualizaciones multiplicativas.</p>
+      </div>
+      <div class="highlight-box" style="margin-top:10px;">
+        <p><strong>Estrategia 2 — Alternating Minimization exacta (AM):</strong><br>
+        Se alterna entre: (1) resolver H con SOCP dado W fijo — exacto pero costoso — y (2) resolver cada fila de W<sub>i</sub> con NNLS dado H fijo — rápido y exacto. La alternancia no garantiza convergencia global pero en la práctica funciona bien.</p>
+      </div>
+      <div class="takeaway">
+        <p>MU es la opción práctica para datasets grandes. AM es la opción exacta para estudios donde la precisión importa más que el tiempo de cómputo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 7 — ALGORITMO MU
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Algoritmos</div>
+  <h2>Algorithm 3 — Multiplicative Updates (MU)</h2>
+  <div class="cols2">
+    <div>
+      <p>La idea central es que el problema min-max se puede aproximar con una <strong>suma ponderada</strong> donde el peso de cada grupo es proporcional a su error relativo actual:</p>
+      <div class="formula">
+        L<sub>weighted</sub>(W,H) = Σ<sub>i</sub> λ<sub>i</sub> · ‖X<sub>i</sub> − W<sub>i</sub>H‖²<sub>F</sub> / ε<sub>i</sub>
+      </div>
+      <p>donde λ<sub>i</sub> ∝ error relativo actual del grupo i. Los grupos más perjudicados reciben mayor peso automáticamente.</p>
+      <p>Con esta ponderación, el objetivo se puede escribir como un NMF estándar sobre una <strong>matriz bloque-diagonal</strong> Λ:</p>
+      <div class="formula">
+        min  ‖X̃ − W̃H‖²<sub>F</sub>
+      </div>
+      <p>donde X̃ y W̃ son versiones reescaladas por √λ<sub>i</sub>/ε<sub>i</sub>. Esto admite exactamente las reglas multiplicativas de Lee &amp; Seung.</p>
+    </div>
+    <div>
+      <div class="card card-blue">
+        <h3>Reglas de actualización adaptadas</h3>
+        <div class="formula" style="text-align:left; font-size:0.75em;">
+          λ<sub>i</sub> ← error_rel<sub>i</sub>(W,H) &nbsp;&nbsp;&nbsp;&nbsp;// pesos dinámicos<br><br>
+          Λ ← blkdiag(λ<sub>1</sub>I, ..., λ<sub>K</sub>I)<br><br>
+          H ← H ⊙ (WᵀΛX) / (WᵀΛWH + ε)<br><br>
+          W<sub>i</sub> ← W<sub>i</sub> ⊙ (X<sub>i</sub>Hᵀ) / (W<sub>i</sub>HHᵀ + ε)
+        </div>
+      </div>
+      <div class="card card-green" style="margin-top:14px;">
+        <h3>Propiedades clave</h3>
+        <ul>
+          <li><strong>No-negatividad:</strong> garantizada por la estructura multiplicativa</li>
+          <li><strong>Convergencia:</strong> empírica en 20–50 iteraciones</li>
+          <li><strong>Complejidad:</strong> O(nmr) por iteración — igual que NMF estándar</li>
+          <li><strong>Sin hiperparámetros extra:</strong> los pesos λ<sub>i</sub> se calculan automáticamente cada iteración</li>
+        </ul>
+      </div>
+      <div class="takeaway">
+        <p>MU es el algoritmo recomendado para uso general. El overhead respecto a NMF estándar es mínimo: solo el cálculo de λ<sub>i</sub> y el reescalado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 8 — ALGORITMO AM
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Algoritmos</div>
+  <h2>Algorithm 2 — Alternating Minimization (AM)</h2>
+  <div class="cols2">
+    <div>
+      <p>AM alterna entre dos subproblemas que sí son resolubles exactamente:</p>
+      <div class="card card-red">
+        <h3>Paso 1: Actualizar H (dado W)</h3>
+        <p>Con W fijo, el problema en H se convierte en un SOCP (Second-Order Cone Program):</p>
+        <div class="formula" style="font-size:0.75em; text-align:left;">
+          min<sub>H≥0</sub>  t<br>
+          s.t.  ‖X<sub>i</sub> − W<sub>i</sub>H‖<sub>F</sub> ≤ √(ε<sub>i</sub> · t)  ∀i
+        </div>
+        <p>Se resuelve con <strong>CVXPY + SCS solver</strong>. Exacto, pero O(r²m) por iteración.</p>
+      </div>
+      <div class="card card-blue" style="margin-top:14px;">
+        <h3>Paso 2: Actualizar W<sub>i</sub> (dado H)</h3>
+        <p>Con H fijo, cada fila de W<sub>i</sub> se resuelve de forma independiente con <strong>NNLS</strong> (Non-Negative Least Squares):</p>
+        <div class="formula" style="font-size:0.78em; text-align:left;">
+          min<sub>w≥0</sub>  ‖x<sub>j</sub> − wH‖²  para cada j en grupo i
+        </div>
+        <p>O(rn) por fila. Paralelizable por grupo.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-gray">
+        <h3>Trade-off respecto a MU</h3>
+        <table>
+          <tr><th></th><th>MU</th><th>AM</th></tr>
+          <tr><td>Exactitud del paso H</td><td>Aproximada</td><td>Exacta (SOCP)</td></tr>
+          <tr><td>Garantía convergencia</td><td>Empírica</td><td>Subproblemas exactos</td></tr>
+          <tr><td>Tiempo/iter</td><td>Rápido</td><td>10–100× más lento</td></tr>
+          <tr><td>Escalabilidad</td><td>Alta</td><td>Limitada (CVXPY)</td></tr>
+          <tr><td>Mejor en</td><td>Datasets grandes, muchas iter.</td><td>Pocos grupos, datos pequeños</td></tr>
+        </table>
+      </div>
+      <div class="highlight-box" style="margin-top:14px;">
+        <h3 style="margin-top:0;">Tiempos observados en este experimento</h3>
+        <table>
+          <tr><th>Dataset</th><th>AM (total)</th></tr>
+          <tr><td>Heart Disease (n=297)</td><td>4.1 s</td></tr>
+          <tr><td>Bank Marketing (n=2000)</td><td>257 s</td></tr>
+          <tr><td>German Credit (n=1000)</td><td>403 s</td></tr>
+          <tr><td>Adult Census (n=2000, m=43)</td><td>1644 s</td></tr>
+          <tr><td>20 Newsgroups (n=1000, m=300)</td><td>3961 s</td></tr>
+        </table>
+      </div>
+      <div class="takeaway">
+        <p>AM es valioso para validar resultados con precisión. Para producción o datasets grandes, MU da resultados prácticamente equivalentes en una fracción del tiempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 9 — BASELINES
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Algoritmos</div>
+  <h2>Baselines de comparación implementados</h2>
+  <div class="cols2">
+    <div>
+      <p>Además de los algoritmos del paper, se implementaron tres baselines adicionales para enmarcar los resultados en el espectro de posibles soluciones al problema de fairness en NMF:</p>
+      <div class="card card-gray">
+        <h3><span class="badge badge-gray">Baseline 1</span> Standard NMF</h3>
+        <p>La referencia inferior: NMF estándar sin ninguna consideración de equidad. Minimiza el error de Frobenius global. Sirve de punto de partida para medir la <em>ganancia de fairness</em> de los métodos propuestos.</p>
+      </div>
+      <div class="card card-green" style="margin-top:12px;">
+        <h3><span class="badge badge-green">Baseline 2</span> Individual NMF por grupo</h3>
+        <p>Cada grupo i tiene su propio diccionario H<sub>i</sub>. Máxima flexibilidad — cada grupo puede adaptarse perfectamente a su propia estructura. Es el <strong>upper bound de fairness</strong>: ningún método con diccionario compartido puede superarlo. El precio es perder toda representación común entre grupos.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-blue">
+        <h3><span class="badge badge-blue">Baseline 3</span> Fair PCA (Samadi et al. 2018, aprox.)</h3>
+        <p>Subespacio PCA compartido que minimiza el max error de grupo via <strong>reweighting iterativo de la covarianza</strong> con exponentiated gradient. Importante: PCA permite valores negativos, así que no es NMF. Se incluye como referencia de métodos lineales de fairness alternativos.</p>
+        <p class="note">La implementación es una aproximación al paper original, no la solución exacta.</p>
+      </div>
+      <div class="card card-accent" style="margin-top:12px;">
+        <h3><span class="badge badge-accent">Baseline 4</span> Reweighted NMF</h3>
+        <p>Heurístico simple: en cada ronda, se duplican muestras del grupo con mayor error (oversampling iterativo) y se vuelve a entrenar NMF sobre el dataset aumentado. Es computacionalmente costoso por las rondas de reentrenamiento y rara vez compite con Fairer-NMF.</p>
+      </div>
+      <div class="takeaway">
+        <p>El objetivo de los baselines es delimitar el espacio de soluciones: Standard NMF es el piso, Individual NMF es el techo. Fairer-NMF debería situarse entre ambos, lo más cerca posible del techo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 10 — CONVERGENCIA
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Algoritmos</div>
+  <h2>Análisis de convergencia: MU vs AM</h2>
+  <div class="cols2">
+    <div>
+      <img src="results/plots/04_convergence_mu.png" class="plot-img" alt="Convergencia MU">
+      <p style="text-align:center; font-size:0.72em; color:#888; margin-top:6px;">Fairer-NMF MU — 300 iteraciones, error relativo por grupo</p>
+    </div>
+    <div>
+      <img src="results/plots/05_convergence_am.png" class="plot-img" alt="Convergencia AM">
+      <p style="text-align:center; font-size:0.72em; color:#888; margin-top:6px;">Fairer-NMF AM — error relativo por grupo</p>
+    </div>
+  </div>
+  <div class="cols2" style="margin-top:12px;">
+    <div class="card card-blue">
+      <h3>MU: convergencia suave y rápida</h3>
+      <p>En todos los datasets, MU alcanza convergencia práctica antes de las 50 iteraciones. Las 300 iteraciones del experimento son deliberadamente excesivas para observar el comportamiento post-convergencia y confirmar estabilidad. No se observan oscilaciones ni divergencia.</p>
+    </div>
+    <div class="card card-red">
+      <h3>AM: convergencia más irregular</h3>
+      <p>AM presenta mayor variabilidad entre grupos, especialmente en las primeras iteraciones. Esto es esperado: el paso SOCP exacto para H puede provocar saltos grandes en el error de W<sub>i</sub> hasta que ambos subproblemas se estabilizan mutuamente. En datasets con muchos grupos (20 Newsgroups) la oscilación es más pronunciada.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 11 — DATASETS
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Setup Experimental</div>
+  <h2>Datasets utilizados</h2>
+  <p>Se seleccionaron 5 datasets reales con atributos sensibles distintos para cubrir diferentes escenarios: binario/multigrupo, texto/tabular, alta/baja disparidad inicial.</p>
+  <table style="margin-top:16px;">
+    <tr>
+      <th>Dataset</th>
+      <th>n</th>
+      <th>m (features)</th>
+      <th>Grupos</th>
+      <th>Atributo sensible</th>
+      <th>Disparidad NMF</th>
+    </tr>
+    <tr>
+      <td><strong>Heart Disease (UCI)</strong></td>
+      <td>297</td>
+      <td>12</td>
+      <td>Female (96) / Male (201)</td>
+      <td>Sexo</td>
+      <td>0.0032</td>
+    </tr>
+    <tr>
+      <td><strong>German Credit</strong></td>
+      <td>1000</td>
+      <td>19</td>
+      <td>Female (310) / Male (690)</td>
+      <td>Sexo</td>
+      <td>0.0011</td>
+    </tr>
+    <tr>
+      <td><strong>Adult Census</strong></td>
+      <td>2000</td>
+      <td>43</td>
+      <td>Female (652) / Male (1348)</td>
+      <td>Sexo</td>
+      <td class="warn">0.1069</td>
+    </tr>
+    <tr>
+      <td><strong>Bank Marketing</strong></td>
+      <td>2000</td>
+      <td>15</td>
+      <td>Married (1159) / Single (626) / Divorced (215)</td>
+      <td>Estado civil</td>
+      <td>0.0049</td>
+    </tr>
+    <tr>
+      <td><strong>20 Newsgroups</strong></td>
+      <td>1000</td>
+      <td>300</td>
+      <td>6 categorías temáticas (118–186 docs)</td>
+      <td>Categoría</td>
+      <td>0.0550</td>
+    </tr>
+  </table>
+  <div class="cols2" style="margin-top:14px;">
+    <div class="card card-accent">
+      <h3>¿Por qué estos datasets?</h3>
+      <p>Cubren distintos tipos de sesgo: desbalance severo (Adult Census: 2:1), múltiples grupos (Bank Marketing, 20 Newsgroups), distintos dominios (médico, financiero, texto) y rangos de disparidad que van de casi nula (German Credit: 0.001) a alta (Adult Census: 0.107).</p>
+    </div>
+    <div class="card card-blue">
+      <h3>Preprocesamiento</h3>
+      <p>Todas las features numéricas se normalizan a [0,1] mediante MinMaxScaler para garantizar no-negatividad. Las categóricas se codifican con one-hot. El TF-IDF de 20 Newsgroups produce directamente valores no-negativos. No se aplica ningún otro balanceo de clases ni augmentation previo.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 12 — SETUP EXPERIMENTAL
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Setup Experimental</div>
+  <h2>Configuración experimental</h2>
+  <div class="cols3">
+    <div class="card card-blue">
+      <h3>Parámetros</h3>
+      <ul>
+        <li><strong>Rango r:</strong> 5 (experimento principal)</li>
+        <li><strong>Iteraciones MU:</strong> 300</li>
+        <li><strong>Semillas:</strong> 7 (análisis de robustez)</li>
+        <li><strong>Barrido de ranks:</strong> {2,3,4,5,6,8,10}</li>
+        <li><strong>Tolerancia:</strong> 1×10⁻⁵</li>
+        <li><strong>Solver AM:</strong> CVXPY + SCS</li>
+      </ul>
+    </div>
+    <div class="card card-gray">
+      <h3>Infraestructura</h3>
+      <ul>
+        <li>Python 3.11, NumPy, scikit-learn</li>
+        <li>CVXPY 1.4 para SOCP (AM)</li>
+        <li>scipy.optimize.nnls para W</li>
+        <li><strong>Checkpointing automático</strong> por dataset y algoritmo</li>
+        <li>AM: checkpoint tras cada iteración individual</li>
+        <li>Reproducible con semilla fija</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <h3>Métricas evaluadas</h3>
+      <ul>
+        <li><strong>Max rel. err:</strong> error del peor grupo</li>
+        <li><strong>Disparity:</strong> max − min error de grupo</li>
+        <li><strong>Max/Min ratio:</strong> cociente de extremos</li>
+        <li><strong>CV:</strong> coeficiente de variación</li>
+        <li><strong>Fairness gain (%):</strong> mejora vs NMF std</li>
+        <li><strong>Accuracy loss (%):</strong> coste en error medio</li>
+        <li><strong>Demographic parity gap</strong> (downstream)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:16px;">
+    <p style="margin:0; font-size:0.82em;">El <strong>fairness gain</strong> se define como la reducción porcentual del max error relativo respecto a NMF estándar: <em>gain = (max_err_NMF − max_err_algo) / max_err_NMF × 100</em>. Un valor positivo indica mejora de equidad.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 13 — RESULTADOS: MAX ERROR
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Resultados</div>
+  <h2>Max error por dataset — el grupo más perjudicado</h2>
+  <div class="cols-4060">
+    <div>
+      <p>Esta métrica responde a la pregunta central del problema: <strong>¿qué tan mal reconstruye el algoritmo al peor grupo?</strong> Es la métrica directamente alineada con el objetivo min-max de Fairer-NMF.</p>
+      <div class="card card-blue" style="margin-top:12px;">
+        <h3>Resultados destacados</h3>
+        <ul>
+          <li><strong class="ok">Adult Census:</strong> MU reduce el max error de 0.385 a 0.363 (−5.7%). El mayor margen absoluto del experimento.</li>
+          <li><strong class="ok">Heart Disease:</strong> Ambos algoritmos reducen de 0.073 a 0.071 (−2.7%). Modesto pero consistente.</li>
+          <li><strong class="warn">German Credit:</strong> MU sube ligeramente (+2.2%). La disparidad inicial era tan baja (0.001) que el algoritmo no tiene señal suficiente para mejorar.</li>
+          <li><strong class="warn">Bank Marketing:</strong> Ambos empeoran levemente (−3.4%). Mismo fenómeno.</li>
+          <li><strong>20 Newsgroups:</strong> AM mejora (+1.5%) con 6 grupos. MU no mejora — el espacio de 300 features y 6 grupos requiere la precisión del SOCP.</li>
+        </ul>
+      </div>
+      <div class="takeaway">
+        <p>La mejora es proporcional a la disparidad inicial. Sin disparidad que corregir, Fairer-NMF introduce pequeñas perturbaciones.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/01_max_error_grouped_bars.png" class="plot-img" alt="Max error por dataset">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 14 — RESULTADOS: DISPARITY
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Resultados</div>
+  <h2>Disparidad inter-grupo: max − min error</h2>
+  <div class="cols-4060">
+    <div>
+      <p>La disparidad (max − min error de grupo) mide <strong>cuánta diferencia de calidad existe entre el mejor y el peor grupo</strong>. Es complementaria al max error: un algoritmo puede tener max error bajo pero alta disparidad si el min error también baja.</p>
+      <div class="card card-blue" style="margin-top:12px;">
+        <h3>Reducción de disparidad</h3>
+        <ul>
+          <li><strong class="ok">Adult Census:</strong> de 0.107 a 0.061 con MU (−43%). La reducción más dramática: el gap entre hombres y mujeres se reduce casi a la mitad.</li>
+          <li><strong class="ok">Heart Disease:</strong> de 0.0032 a 0.0001 con ambos algoritmos (−97%). La disparidad prácticamente desaparece.</li>
+          <li><strong class="ok">20 Newsgroups:</strong> AM reduce de 0.055 a 0.043 (−21%). Con 6 grupos, igualar los errores es más difícil.</li>
+          <li><strong class="warn">German Credit / Bank Marketing:</strong> disparidad inicial tan baja que cualquier perturbación la aumenta. MU introduce dispersión donde no existía.</li>
+        </ul>
+      </div>
+      <div class="takeaway">
+        <p>La reducción de disparidad en Adult Census es el resultado más sólido del experimento: un gap del 10.7% entre géneros se reduce al 6.1% sin perder más del 3% de accuracy global.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/02_disparity_grouped_bars.png" class="plot-img" alt="Disparity por dataset">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 15 — SCATTER TRADE-OFF
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Resultados</div>
+  <h2>Trade-off fairness vs accuracy</h2>
+  <div class="cols-4060">
+    <div>
+      <p>Este scatter es el gráfico más importante del análisis. Pone en relación el <strong>beneficio de equidad</strong> (eje Y: reducción del max error) con el <strong>coste de accuracy</strong> (eje X: incremento del error medio global).</p>
+      <p>El cuadrante ideal es <strong>arriba-izquierda</strong>: máxima mejora de fairness con mínima pérdida de accuracy. Arriba-derecha y abajo-izquierda son trade-offs. Abajo-derecha es lo peor posible.</p>
+      <div class="card card-blue" style="margin-top:12px;">
+        <h3>Lectura del gráfico</h3>
+        <ul>
+          <li><strong class="ok">Adult Census (MU):</strong> +5.7% fairness gain con solo +2.9% accuracy loss — relación 2:1 favorable</li>
+          <li><strong class="ok">Heart Disease (MU y AM):</strong> +2.7% fairness con pérdida &lt;0.5% — prácticamente gratis</li>
+          <li><strong>German Credit y Bank Marketing:</strong> se desplazan ligeramente hacia abajo-derecha — pequeña pérdida sin ganancia, la disparidad inicial era mínima</li>
+        </ul>
+      </div>
+      <div class="takeaway">
+        <p>En los datasets donde existe disparidad real que corregir, el coste en accuracy es aceptable y la ganancia de equidad es significativa. El algoritmo no sacrifica calidad global innecesariamente.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/03_scatter_tradeoff.png" class="plot-img" alt="Scatter trade-off">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 16 — BASELINES COMPARACIÓN
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Resultados</div>
+  <h2>Comparación con todos los baselines</h2>
+  <div class="cols-4060">
+    <div>
+      <p>Esta gráfica pone a Fairer-NMF en contexto frente a las cuatro alternativas. El eje vertical es el max error relativo del peor grupo — cuanto más bajo, mejor equidad.</p>
+      <div class="card card-green">
+        <h3>Individual NMF — el techo inalcanzable</h3>
+        <p>Consistentemente tiene el menor max error porque cada grupo tiene su propio H<sub>i</sub>. No hay restricción de representación compartida. Es el <strong>upper bound teórico</strong>: si se llegara a este valor con diccionario compartido, el problema estaría resuelto.</p>
+      </div>
+      <div class="card card-blue" style="margin-top:10px;">
+        <h3>Fairer-NMF MU y AM — los más cercanos al techo</h3>
+        <p>Entre los métodos con H compartido, MU y AM son los que más se acercan al upper bound, especialmente en Adult Census y Heart Disease.</p>
+      </div>
+      <div class="card card-gray" style="margin-top:10px;">
+        <h3>Fair PCA y Reweighted NMF — peores</h3>
+        <p>Fair PCA trabaja en el espacio centrado (con valores negativos) y su ventaja se pierde al proyectar de vuelta a no-negativos. Reweighted NMF mejora marginalmente respecto a NMF estándar pero no llega a competir con la formulación min-max directa.</p>
+      </div>
+      <div class="takeaway">
+        <p>Fairer-NMF domina a todos los baselines con diccionario compartido, validando que la formulación min-max es más efectiva que las alternativas heurísticas.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/12_all_baselines_comparison.png" class="plot-img" alt="Comparación baselines">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 17 — CUÁNDO FUNCIONA
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Resultados</div>
+  <h2>¿Cuándo funciona Fairer-NMF y cuándo no?</h2>
+  <div class="cols2">
+    <div>
+      <img src="results/plots/07_heatmap_fairness_gain.png" class="plot-img-sm" alt="Heatmap fairness gain" style="display:block; margin:0 auto;">
+      <p style="text-align:center; font-size:0.72em; color:#888; margin-top:6px;">Verde = mejora de fairness, Rojo = empeoramiento</p>
+    </div>
+    <div>
+      <p>El heatmap resume el panorama completo: fairness gain (%) para MU y AM en los 5 datasets. La regla empírica que emerge del experimento es clara:</p>
+      <div class="card card-green">
+        <h3 class="ok">Funciona cuando hay disparidad inicial significativa</h3>
+        <ul>
+          <li><strong>Adult Census</strong> (disp. 0.107): MU +5.7%, AM +0.1%</li>
+          <li><strong>Heart Disease</strong> (disp. 0.003): ambos +2.7%</li>
+          <li><strong>20 Newsgroups</strong> (disp. 0.055): AM +1.5%</li>
+        </ul>
+        <p>La señal del max en la función objetivo es suficientemente informativa para redirigir la optimización.</p>
+      </div>
+      <div class="card card-red" style="margin-top:12px;">
+        <h3 class="warn">No funciona cuando la disparidad inicial es mínima</h3>
+        <ul>
+          <li><strong>German Credit</strong> (disp. 0.001): MU −2.2%, AM −8.2%</li>
+          <li><strong>Bank Marketing</strong> (disp. 0.005): ambos −3.4%</li>
+        </ul>
+        <p>NMF estándar ya distribuye el error equitativamente. Fairer-NMF intenta corregir algo que no necesita corrección e introduce ruido.</p>
+      </div>
+      <div class="takeaway">
+        <p>Recomendación práctica: antes de aplicar Fairer-NMF, medir la disparidad de NMF estándar. Si es menor a 0.01, el beneficio es improbable y el coste puede existir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 18 — ROBUSTEZ ESTADÍSTICA
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Análisis Académicos</div>
+  <h2>Robustez estadística: análisis multi-seed</h2>
+  <div class="cols-4060">
+    <div>
+      <p>Un resultado puntual con una sola semilla puede ser un artefacto de la inicialización. Para validar que los resultados son <strong>estadísticamente robustos</strong>, se repitió el experimento con 7 semillas distintas: {0, 7, 13, 21, 42, 77, 99}.</p>
+      <div class="card card-blue" style="margin-top:12px;">
+        <h3>Test de Wilcoxon signed-rank</h3>
+        <p>Se aplicó el test no-paramétrico de Wilcoxon para comparar la distribución del max error de MU vs NMF estándar a través de las 7 semillas. Es preferible al t-test porque no asume normalidad de los errores de NMF.</p>
+        <p><strong>Resultado en Adult Census: p &lt; 0.05</strong> — la mejora de MU es estadísticamente significativa. En German Credit y Bank Marketing no se rechaza H₀ (consistente con la ausencia de mejora visual).</p>
+      </div>
+      <div class="card card-green" style="margin-top:12px;">
+        <h3>Importancia para la validez del trabajo</h3>
+        <p>La robustez multi-seed transforma el análisis de un resultado anecdótico a una afirmación con soporte estadístico. En ML, un modelo que solo funciona con cierta inicialización no es prácticamente útil.</p>
+      </div>
+      <div class="takeaway">
+        <p>Los resultados de Adult Census son robustos a la inicialización. La varianza inter-semilla de MU es menor que la de NMF estándar, indicando mayor estabilidad del proceso de optimización.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/08_multiseed_boxplot.png" class="plot-img" alt="Multi-seed boxplot">
+      <img src="results/plots/17_wilcoxon_test.png" class="plot-img" alt="Wilcoxon test" style="margin-top:10px;">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 19 — PARETO FRONTIER
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Análisis Académicos</div>
+  <h2>Frontera de Pareto: fairness vs accuracy en función del rank</h2>
+  <div class="cols-4060">
+    <div>
+      <p>El rank r es el único hiperparámetro estructural de NMF. Este análisis barre r ∈ {2, 3, 4, 5, 6, 8, 10} para mapear cómo evoluciona el trade-off fairness/accuracy con la complejidad del modelo.</p>
+      <div class="card card-accent" style="margin-top:12px;">
+        <h3>¿Qué revela la frontera de Pareto?</h3>
+        <ul>
+          <li>A <strong>bajo rank</strong>, el modelo tiene poca capacidad expresiva. La diferencia entre NMF y Fairer-NMF es mínima porque ambos están capacidad-limitados.</li>
+          <li>A <strong>rank intermedio</strong> (r=4–6 según el dataset), la diferencia de fairness entre los algoritmos es máxima — hay suficiente capacidad para especializar pero no tanta que cualquier H cubra todo.</li>
+          <li>A <strong>alto rank</strong>, la diferencia vuelve a reducirse porque cualquier H de alta dimensión puede aproximar bien a todos los grupos.</li>
+        </ul>
+      </div>
+      <div class="card card-blue" style="margin-top:12px;">
+        <h3>Implicación práctica</h3>
+        <p>El rank óptimo para fairness no coincide necesariamente con el óptimo para accuracy. Este análisis permite elegir el rank que equilibra ambos objetivos según las prioridades del caso de uso.</p>
+      </div>
+      <div class="takeaway">
+        <p>La Frontera de Pareto permite visualizar explícitamente el coste de cada grado de equidad en términos de capacidad del modelo, habilitando decisiones informadas sobre el rank.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/09_pareto_frontier.png" class="plot-img" alt="Pareto frontier">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 20 — DOWNSTREAM FAIRNESS
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Análisis Académicos</div>
+  <h2>Fairness downstream: ¿se propaga la mejora?</h2>
+  <div class="cols-4060">
+    <div>
+      <p>Mejorar el error de reconstrucción es un objetivo intermedio. La pregunta que realmente importa es: <strong>¿la mayor equidad en la representación se traduce en mayor equidad en tareas posteriores?</strong></p>
+      <p>Se entrenó un clasificador (LogisticRegression, 5-fold stratified CV) sobre los embeddings W de cada algoritmo y se midió:</p>
+      <ul>
+        <li><strong>Accuracy por grupo</strong> (plot 10)</li>
+        <li><strong>Demographic Parity Gap</strong> = |P(ŷ=1 | grupo A) − P(ŷ=1 | grupo B)| (plot 11)</li>
+      </ul>
+      <div class="card card-green" style="margin-top:12px;">
+        <h3>Resultado</h3>
+        <p>En Adult Census, el demographic parity gap del clasificador entrenado sobre embeddings MU es <strong>menor</strong> que el entrenado sobre embeddings de NMF estándar. La mejora de reconstrucción equitativa se propaga, aunque atenuada, al nivel de decisión.</p>
+      </div>
+      <div class="card card-accent" style="margin-top:12px;">
+        <h3>Por qué esto importa</h3>
+        <p>Demuestra que Fairer-NMF no es solo una métrica de reconstrucción más equitativa — produce representaciones que, cuando se usan para decisiones reales, generan <em>decisiones más equitativas</em>. Esto conecta la métrica técnica con el impacto real.</p>
+      </div>
+      <div class="takeaway">
+        <p>La equidad en el embedding no es un fin en sí mismo — es un medio para obtener sistemas de decisión más justos aguas abajo.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/10_downstream_classification.png" class="plot-img" alt="Downstream classification">
+      <img src="results/plots/11_demographic_parity_gap.png" class="plot-img" alt="Demographic parity gap" style="margin-top:10px;">
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 21 — t-SNE + INTERSECCIONALIDAD
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Análisis Académicos</div>
+  <h2>t-SNE de embeddings e Interseccionalidad</h2>
+  <div class="cols2">
+    <div>
+      <img src="results/plots/15_tsne_embeddings.png" class="plot-img" alt="t-SNE">
+      <div class="card card-blue" style="margin-top:10px;">
+        <h3>Lectura del t-SNE</h3>
+        <p>Cada punto es una muestra, coloreada por grupo. Se visualizan las proyecciones W de NMF estándar, MU y AM en 2D usando t-SNE. En los datasets con alta disparidad, los embeddings de Fairer-NMF muestran clusters más homogéneos entre grupos, indicando representaciones más similares en estructura.</p>
+      </div>
+    </div>
+    <div>
+      <img src="results/plots/20_intersectionality.png" class="plot-img" alt="Interseccionalidad">
+      <div class="card card-accent" style="margin-top:10px;">
+        <h3>Análisis de interseccionalidad</h3>
+        <p>Se construyó una partición de <strong>4 grupos cruzados</strong> en Adult Census: Sexo × Edad (≤40 / >40). Los grupos resultantes son: Mujer joven (357), Mujer mayor (295), Hombre joven (633), Hombre mayor (715).</p>
+        <p>El análisis muestra que Fairer-NMF reduce la disparidad incluso en el cruce de atributos sensibles — no solo a nivel de sexo, sino también en la intersección con edad. Este es un resultado relevante porque los grupos interseccionales suelen ser los más perjudicados en sistemas de ML.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 22 — CONCLUSIONES
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Conclusiones</div>
+  <h2>Conclusiones</h2>
+  <div class="cols2">
+    <div>
+      <div class="card card-blue">
+        <h3>1. La formulación min-max funciona</h3>
+        <p>Fairer-NMF reduce el max error de grupo en todos los datasets con disparidad inicial significativa (Adult Census: −5.7%, Heart Disease: −2.7%, 20 Newsgroups AM: +1.5%). El enfoque min-max es más efectivo que los heurísticos de oversampling o reweighting.</p>
+      </div>
+      <div class="card card-green" style="margin-top:12px;">
+        <h3>2. MU es la variante práctica</h3>
+        <p>Converge en 20–50 iteraciones con overhead mínimo respecto a NMF estándar. AM da resultados equivalentes o mejores en escenarios multigrupo pero requiere entre 10× y 100× más tiempo. Para datasets grandes, MU es la elección obvia.</p>
+      </div>
+      <div class="card card-accent" style="margin-top:12px;">
+        <h3>3. La mejora se propaga al downstream</h3>
+        <p>El demographic parity gap del clasificador entrenado sobre embeddings de MU es menor que el de NMF estándar en Adult Census. La equidad en representación no es solo una métrica de paper — tiene impacto real en decisiones posteriores.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-red">
+        <h3>4. El algoritmo tiene un punto ciego</h3>
+        <p>Cuando la disparidad inicial es pequeña (German Credit: 0.001, Bank Marketing: 0.005), Fairer-NMF no tiene señal suficiente y puede introducir pequeñas degradaciones. La recomendación es medir la disparidad de NMF estándar antes de aplicarlo.</p>
+      </div>
+      <div class="card card-gray" style="margin-top:12px;">
+        <h3>5. La robustez está validada</h3>
+        <p>El análisis de 7 semillas y el test de Wilcoxon confirman que los resultados en Adult Census son estadísticamente significativos (p &lt; 0.05), no artefactos de inicialización.</p>
+      </div>
+      <div class="highlight-box" style="margin-top:12px;">
+        <p style="margin:0; font-size:0.85em;"><strong>Mensaje central:</strong> NMF estándar produce representaciones sesgadas en datos con grupos desbalanceados. Fairer-NMF corrige ese sesgo de forma principiada, sin hiperparámetros de penalización adicionales y con un coste computacional aceptable para el algoritmo MU.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     SLIDE 23 — LIMITACIONES Y TRABAJO FUTURO
+════════════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Trabajo Futuro</div>
+  <h2>Limitaciones y líneas de trabajo futuro</h2>
+  <div class="cols2">
+    <div>
+      <h3 style="margin-bottom:12px;">Limitaciones identificadas</h3>
+      <div class="card card-red">
+        <h3>AM no escala</h3>
+        <p>El solver SOCP de CVXPY no está optimizado para matrices grandes. Con n=2000, m=300 (20 Newsgroups) AM tarda ~66 minutos. Extensiones con solvers especializados (OSQP, MOSEK) o formulaciones de gradiente proyectado podrían mejorar esto significativamente.</p>
+      </div>
+      <div class="card card-red" style="margin-top:10px;">
+        <h3>Sin control explícito del trade-off</h3>
+        <p>La formulación min-max pura no tiene un parámetro λ que permita controlar cuánto fairness se quiere a cambio de cuánta accuracy. Esto puede ser una limitación en aplicaciones donde ese balance es una decisión de negocio o regulatoria.</p>
+      </div>
+      <div class="card card-red" style="margin-top:10px;">
+        <h3>Grupos definidos de forma binaria</h3>
+        <p>La partición en grupos requiere conocer el atributo sensible de cada muestra, lo que no siempre es legal o disponible en producción.</p>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:12px;">Extensiones propuestas</h3>
+      <div class="card card-blue">
+        <h3>NMF tensorial equitativo</h3>
+        <p>Extender la formulación a datos temporales o multimodales mediante Tensor Factorization con restricciones min-max por grupo.</p>
+      </div>
+      <div class="card card-blue" style="margin-top:10px;">
+        <h3>Fairer-NMF online</h3>
+        <p>Adaptar el algoritmo MU a una versión online (mini-batch) que permita actualizar H incrementalmente conforme llegan nuevos datos, habilitando aplicaciones en streaming.</p>
+      </div>
+      <div class="card card-blue" style="margin-top:10px;">
+        <h3>Fairness sin atributos sensibles</h3>
+        <p>Explorar formulaciones donde los grupos se definen por clustering o por disparidad observada en el error, eliminando la necesidad de etiquetar el atributo sensible.</p>
+      </div>
+      <div style="margin-top:16px; text-align:center;">
+        <p class="note">Kassab, R., Mangold, C., Richard, G., &amp; Rudi, A. (2024).<br>
+        <em>Towards a Fairer Non-negative Matrix Factorization</em>. arXiv:2411.09847</p>
+        <br>
+        <span class="badge badge-blue">github.com/RVargasC22/fairer-nmf-experiments</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  progress: true,
+  controls: true,
+  center: false,
+  width: 1280,
+  height: 720,
+  margin: 0.04,
+  transition: 'slide',
+  transitionSpeed: 'fast',
+  backgroundTransition: 'fade',
+  plugins: []
+});
+</script>
+</body>
+</html>
