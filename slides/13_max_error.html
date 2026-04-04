@@ -1,0 +1,27 @@
+<div class="slide" style="padding: 10px 50px;">
+    <h2 class="slide-title" style="margin-bottom: 0.5rem; font-size: 2.8rem;">Minimizando el Error Máximo</h2>
+    <div class="slide-grid" style="grid-template-columns: 0.4fr 1.6fr; gap: 30px; align-items: stretch; height: 100%;">
+        <div class="slide-text" style="font-size: 0.95rem; line-height: 1.3; margin-top: 10px;">
+            <p>Nuestro objetivo primario: reducir el error del grupo más perjudicado sin degradar excesivamente el promedio.</p>
+            <div style="background: rgba(0, 242, 234, 0.05); border-left: 4px solid var(--accent-fair); padding: 12px; margin: 15px 0;">
+                <p style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-fair);">DISMINUCIÓN DEL ERROR MÁXIMO (Peor Grupo):</p>
+                <div style="font-size: 0.9rem; margin-top: 6px;">
+                    • <strong>Adult Census:</strong> de 0.385 a <strong>0.363</strong> (MU)<br>
+                    • <strong>20 Newsgroups:</strong> de 0.912 a <strong>0.899</strong> (AM)<br>
+                    • <strong>Heart Disease:</strong> Mejora marginal (0.073 a 0.071)
+                </div>
+            </div>
+            <p style="font-size: 0.9rem; color: #94a3b8;">La optimización min-max logra "subir el piso" para los grupos con peor reconstrucción.</p>
+        </div>
+        <div class="slide-visual" style="display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: space-between;">
+            <div class="plot-frame" style="flex: 1; display: flex; flex-direction: column; padding: 5px; width: 100%; border-color: rgba(255, 255, 255, 0.1);">
+                <div class="hud-tag">RESULTADO: MAX RELATIVE ERROR</div>
+                <div class="scan-line"></div>
+                <img src="results/plots/01_max_error_grouped_bars.png" alt="Max Error Grouped Bars" style="flex: 1; width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-gold); align-self: flex-end; opacity: 0.7;">
+                [SCAN_SUCCESS] DATA_POINT: WORST_GROUP_ERROR
+            </div>
+        </div>
+    </div>
+</div>

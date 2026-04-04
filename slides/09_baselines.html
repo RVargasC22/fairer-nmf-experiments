@@ -1,0 +1,28 @@
+<div class="slide">
+    <h2 class="slide-title">Baselines — El Espacio de Soluciones</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <ul style="font-size: 1.1rem;">
+                <li style="margin-bottom: 2rem;"><strong>NMF Estándar:</strong> Referencia base (sin equidad).</li>
+                <li style="margin-bottom: 2rem;"><strong>Individual NMF:</strong> <span style="color: var(--accent-fair);">Upper Bound</span> de equidad. Cada grupo tiene su propio H_i. Pierde la representación común.</li>
+                <li style="margin-bottom: 2rem;"><strong>Fair PCA:</strong> Optimización min-max en el espacio PCA. Permite valores negativos (menos interpretable).</li>
+                <li><strong>Reweighted NMF:</strong> Heurístico de oversampling iterativo del grupo con mayor error.</li>
+            </ul>
+        </div>
+        <div class="slide-visual">
+            <svg width="400" height="300" viewBox="0 0 400 300">
+                <!-- Comparison Spectrum -->
+                <line x1="50" y1="200" x2="350" y2="200" stroke="#fff" stroke-width="2" />
+                <circle cx="50" cy="200" r="10" fill="var(--accent-acc)" />
+                <text x="50" y="230" text-anchor="middle" fill="var(--accent-acc)" font-size="12">NMF STD</text>
+                
+                <circle cx="350" cy="200" r="10" fill="var(--accent-fair)" />
+                <text x="350" y="230" text-anchor="middle" fill="var(--accent-fair)" font-size="12">INDIVIDUAL</text>
+                
+                <rect x="180" y="180" width="40" height="40" fill="var(--accent-gold)" opacity="0.8" />
+                <text x="200" y="170" text-anchor="middle" fill="var(--accent-gold)" font-size="14" font-weight="bold">FAIRER-NMF</text>
+                <text x="200" y="240" text-anchor="middle" fill="#64748b" font-size="11">DICCIONARIO COMPARTIDO</text>
+            </svg>
+        </div>
+    </div>
+</div>

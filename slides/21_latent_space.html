@@ -1,0 +1,29 @@
+<div class="slide" style="padding: 10px 50px;">
+    <h2 class="slide-title" style="margin-bottom: 0.5rem; font-size: 2.8rem;">Visualización del Espacio Latente</h2>
+    <div class="slide-grid" style="grid-template-columns: 0.4fr 1.6fr; gap: 30px; align-items: stretch; height: 100%;">
+        <div class="slide-text" style="font-size: 0.95rem; line-height: 1.4; margin-top: 10px;">
+            <p>Usamos t-SNE para proyectar las representaciones W en 2D y observar la distribución de los grupos protegidos.</p>
+            <div style="margin-top: 15px; line-height: 1.5;">
+                <p style="font-size: 0.9rem; color: #94a3b8;"><strong>Preservación de Estructura:</strong> Las agrupaciones naturales del dataset persisten en Fairer-NMF, lo que justifica por qué no perdemos precisión en clasificación.</p>
+                <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #4ecdc4; box-shadow: 0 0 10px #4ecdc4;"></div>
+                    <span style="font-size: 0.8rem; color: #94a3b8; font-family: 'JetBrains Mono';">CLUSTERING_CONSISTENT</span>
+                </div>
+                <div style="margin-top: 6px; display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b;"></div>
+                    <span style="font-size: 0.8rem; color: #94a3b8; font-family: 'JetBrains Mono';">STRUCTURE_UNDEGRADED</span>
+                </div>
+            </div>
+        </div>
+        <div class="slide-visual" style="display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: space-between;">
+            <div class="plot-frame" style="flex: 1; display: flex; flex-direction: column; padding: 5px; width: 100%; border-color: rgba(255, 255, 255, 0.1);">
+                <div class="hud-tag">MAPA: T-SNE LATENT SPACE</div>
+                <div class="scan-line"></div>
+                <img src="results/plots/15_tsne_embeddings.png" alt="Visualización T-SNE" style="flex: 1; width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-gold); align-self: flex-end; opacity: 0.7;">
+                [SCAN_SUCCESS] DATA_POINT: TOPOLOGY_VERIFIED
+            </div>
+        </div>
+    </div>
+</div>

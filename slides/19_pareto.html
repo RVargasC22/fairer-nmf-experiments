@@ -1,0 +1,26 @@
+<div class="slide" style="padding: 10px 50px;">
+    <h2 class="slide-title" style="margin-bottom: 0.5rem; font-size: 2.8rem;">Pareto: Equidad vs Complejidad</h2>
+    <div class="slide-grid" style="grid-template-columns: 0.4fr 1.6fr; gap: 30px; align-items: stretch; height: 100%;">
+        <div class="slide-text" style="font-size: 0.95rem; line-height: 1.3; margin-top: 10px;">
+            <p>¿Qué sucede cuando variamos el rango (r)? Evaluamos la robustez del compromiso equidad-precisión bajo diferentes niveles de compresión.</p>
+            <div style="margin-top: 15px; border-left: 2px dashed #4b5563; padding-left: 15px;">
+                <p style="font-family: 'JetBrains Mono'; margin-bottom: 8px; color: #94a3b8; font-size: 0.8rem;">HALLAZGOS:</p>
+                <ul style="font-size: 0.9rem; line-height: 1.5; color: #94a3b8; display: flex; flex-direction: column; gap: 8px;">
+                    <li><strong>Dominancia:</strong> Fairer-NMF MU domina a Standard NMF en <strong>Adult Census</strong> sistemáticamente.</li>
+                    <li><strong>Rank r=2 a 10:</strong> La ganancia en equidad se mantiene consistente independientemente de la dimensionalidad.</li>
+                    <li><strong>Propuesta:</strong> Es posible elegir un r óptimo que maximice la eficiencia y la justicia.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-visual" style="display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: space-between;">
+            <div class="plot-frame" style="flex: 1; display: flex; flex-direction: column; padding: 5px; width: 100%; border-color: rgba(255, 255, 255, 0.1);">
+                <div class="hud-tag">SISTEMA: PARETO FRONTIER</div>
+                <div class="scan-line"></div>
+                <img src="results/plots/09_pareto_frontier.png" alt="Frontera de Pareto" style="flex: 1; width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-gold); align-self: flex-end; opacity: 0.7;">
+                [SCAN_SUCCESS] DATA_POINT: DOMINANCE_VERIFIED
+            </div>
+        </div>
+    </div>
+</div>

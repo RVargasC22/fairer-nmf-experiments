@@ -1,0 +1,130 @@
+<div class="slide">
+    <h2 class="slide-title">Datasets del Estudio</h2>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; align-items: stretch; height: calc(100% - 120px); margin-top: 20px;">
+        
+        <!-- ADULT -->
+        <div style="border: 1px solid var(--hud-border); padding: 20px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,242,234,0.02) 100%); display: flex; flex-direction: column; position: relative; overflow: hidden;">
+            <div style="color: var(--accent-fair); font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 1px;">ADULT</div>
+            <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4; min-height: 3.2rem;">Predicción de ingresos altos (>50k) en el censo USA.</p>
+            
+            <!-- Center Icon Container -->
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fair)" stroke-width="1.5" style="opacity: 0.6;">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                <p style="font-size: 0.7rem; color: var(--accent-acc); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">RETO TÉCNICO</p>
+                <p style="font-size: 0.8rem; color: #fff;">Fuerte correlación entre género y ocupación/ingresos.</p>
+            </div>
+
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-gold);">
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">• n = 45,222</div>
+                <div>• d = 102 (One-Hot)</div>
+                <div>• Grupos: Género (B)</div>
+            </div>
+        </div>
+
+        <!-- HEART -->
+        <div style="border: 1px solid var(--hud-border); padding: 20px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,0,85,0.02) 100%); display: flex; flex-direction: column; position: relative; overflow: hidden;">
+            <div style="color: var(--accent-fair); font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 1px;">HEART</div>
+            <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4; min-height: 3.2rem;">Diagnóstico clínico de cardiopatías (Cleveland Clinic).</p>
+            
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-acc)" stroke-width="1.5" style="opacity: 0.6;">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                <p style="font-size: 0.7rem; color: var(--accent-acc); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">RETO TÉCNICO</p>
+                <p style="font-size: 0.8rem; color: #fff;">Dataset pequeño. Riesgo alto de sobreajuste en AM.</p>
+            </div>
+
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-gold);">
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">• n = 303</div>
+                <div>• d = 13 (Num/Cat)</div>
+                <div>• Grupos: Sexo (B)</div>
+            </div>
+        </div>
+
+        <!-- GERMAN -->
+        <div style="border: 1px solid var(--hud-border); padding: 20px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,190,11,0.02) 100%); display: flex; flex-direction: column; position: relative; overflow: hidden;">
+            <div style="color: var(--accent-fair); font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 1px;">GERMAN</div>
+            <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4; min-height: 3.2rem;">Evaluación de riesgo para créditos personales.</p>
+            
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="1.5" style="opacity: 0.6;">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                    <line x1="1" y1="10" x2="23" y2="10" />
+                </svg>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                <p style="font-size: 0.7rem; color: var(--accent-acc); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">RETO TÉCNICO</p>
+                <p style="font-size: 0.8rem; color: #fff;">Señal de disparidad casi nula por debajo del ruido.</p>
+            </div>
+
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-gold);">
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">• n = 1,000</div>
+                <div>• d = 20</div>
+                <div>• Grupos: Edad (B)</div>
+            </div>
+        </div>
+
+        <!-- BANK -->
+        <div style="border: 1px solid var(--hud-border); padding: 20px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,242,234,0.02) 100%); display: flex; flex-direction: column; position: relative; overflow: hidden;">
+            <div style="color: var(--accent-fair); font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 1px;">BANK</div>
+            <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4; min-height: 3.2rem;">Telemarketing para suscripción de depósitos bancarios.</p>
+            
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fair)" stroke-width="1.5" style="opacity: 0.6;">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                <p style="font-size: 0.7rem; color: var(--accent-acc); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">RETO TÉCNICO</p>
+                <p style="font-size: 0.8rem; color: #fff;">3 grupos desiguales. Desbalance extremo de clase (Si/No).</p>
+            </div>
+
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-gold);">
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">• n = 45,211</div>
+                <div>• d = 17</div>
+                <div>• Grupos: Edo. Civ (3)</div>
+            </div>
+        </div>
+
+        <!-- 20NG -->
+        <div style="border: 1px solid var(--hud-border); padding: 20px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,0,85,0.02) 100%); display: flex; flex-direction: column; position: relative; overflow: hidden;">
+            <div style="color: var(--accent-fair); font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 1px;">20NG</div>
+            <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.4; min-height: 3.2rem;">Clasificación de texto en topics (TF-IDF).</p>
+            
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-acc)" stroke-width="1.5" style="opacity: 0.6;">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                </svg>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                <p style="font-size: 0.7rem; color: var(--accent-acc); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">RETO TÉCNICO</p>
+                <p style="font-size: 0.8rem; color: #fff;">Curse of Dimensionality. 6 grupos de topics.</p>
+            </div>
+
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-gold);">
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">• n = 11,314</div>
+                <div>• d = 1,000+</div>
+                <div>• Grupos: Tópicos (6)</div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="slide" style="padding: 10px 50px;">
+    <h2 class="slide-title" style="margin-bottom: 0.5rem; font-size: 2.8rem;">Robustez y Estabilidad</h2>
+    <div class="slide-grid" style="grid-template-columns: 0.4fr 1.6fr; gap: 30px; align-items: stretch; height: 100%;">
+        <div class="slide-text" style="font-size: 0.95rem; line-height: 1.3; margin-top: 10px;">
+            <p>La consistencia de los resultados es fundamental en algoritmos estocásticos inicializados con semillas aleatorias.</p>
+            <div style="margin-top: 15px; padding: 15px; background: rgba(0, 242, 234, 0.05); border: 1px solid var(--accent-fair); border-radius: 4px;">
+                <p style="font-family: 'JetBrains Mono'; margin-bottom: 8px; color: var(--accent-fair); font-size: 0.8rem;">[DIAGNÓSTICO: ESTADÍSTICOS]</p>
+                <ul style="font-size: 0.9rem; line-height: 1.5; color: #94a3b8; display: flex; flex-direction: column; gap: 8px;">
+                    <li><strong>Semillas:</strong> 7 semillas independientes.</li>
+                    <li><strong>Varianza:</strong> ~±0.000 en el error máximo.</li>
+                    <li><strong>Conclusión:</strong> El algoritmo es altamente estable y no depende de una inicialización "afortunada".</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-visual" style="display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: space-between;">
+            <div class="plot-frame" style="flex: 1; display: flex; flex-direction: column; padding: 5px; width: 100%; border-color: rgba(255, 255, 255, 0.1);">
+                <div class="hud-tag">MAPA: STATISTICAL ROBUSTNESS</div>
+                <div class="scan-line"></div>
+                <img src="results/plots/08_multiseed_boxplot.png" alt="Robustez Estadística" style="flex: 1; width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-gold); align-self: flex-end; opacity: 0.7;">
+                [SCAN_SUCCESS] DATA_POINT: ZERO_VARIANCE_CONFIRMED
+            </div>
+        </div>
+    </div>
+</div>

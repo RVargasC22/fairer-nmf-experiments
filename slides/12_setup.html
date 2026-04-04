@@ -1,0 +1,30 @@
+<div class="slide">
+    <h2 class="slide-title">Setup Experimental</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <ul style="font-size: 1.1rem;">
+                <li style="margin-bottom: 1.5rem;"><strong>Rango r = 5:</strong> Nivel de compresión estándar para representaciones latentes.</li>
+                <li style="margin-bottom: 1.5rem;"><strong>Iteraciones:</strong> 300 (MU) y convergencia estable para AM.</li>
+                <li style="margin-bottom: 1.5rem;"><strong>Robustez:</strong> 7 semillas aleatorias distintas para validación estadística.</li>
+                <li style="margin-bottom: 1.5rem;"><strong>Métricas:</strong>
+                    <ul style="font-size: 0.9rem; margin-left: 20px; margin-top: 10px;">
+                        <li>Max Relative Error (Objetivo min-max)</li>
+                        <li>Disparity (Max - Min Error)</li>
+                        <li>Fairness Gain vs Accuracy Loss</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="slide-visual">
+            <div style="padding: 20px; border: 1px dashed var(--hud-border); border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 0.9rem;">
+                <span style="color: var(--accent-gold);"># Configuration</span><br>
+                rank = 5<br>
+                n_iter = 300<br>
+                seeds = [42, 12, 101, 7, 19, 88, 23]<br>
+                <br>
+                <span style="color: var(--accent-gold);"># Algorithms</span><br>
+                algos = ["NMF", "MU", "AM", "Indiv", "PCA"]
+            </div>
+        </div>
+    </div>
+</div>
