@@ -1,0 +1,91 @@
+<div class="slide">
+    <h2 class="slide-title">Motivación: El Sesgo Invisible</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <ul>
+                <li style="margin-bottom: 2rem;">
+                    NMF estándar minimiza el error de reconstrucción <strong>global</strong>.
+                </li>
+                <li style="margin-bottom: 2rem;">
+                    La mayoría estadística domina el proceso de aprendizaje del "diccionario".
+                </li>
+                <li style="margin-bottom: 2rem;">
+                    <strong>El problema:</strong> Los grupos minoritarios tienen errores de reconstrucción 2-3x mayores.
+                </li>
+                <li>
+                    El sesgo aparece en la <strong>representación intermedia</strong>, incluso antes de que el modelo final empiece a entrenarse.
+                </li>
+            </ul>
+        </div>
+        <div class="slide-visual">
+            <svg width="100%" height="400" viewBox="0 0 500 400" style="filter: drop-shadow(0 0 20px rgba(0, 242, 234, 0.1));">
+                <!-- HUD Grid -->
+                <g stroke="rgba(148, 163, 184, 0.1)" stroke-width="1">
+                    <line x1="50" y1="50" x2="50" y2="350" />
+                    <line x1="50" y1="350" x2="450" y2="350" />
+                    <path d="M 50 300 L 450 300 M 50 250 L 450 250 M 50 200 L 450 200 M 50 150 L 450 150 M 50 100 L 450 100" />
+                    <path d="M 100 50 L 100 350 M 150 50 L 150 350 M 200 50 L 200 350 M 250 50 L 250 350 M 300 50 L 300 350 M 350 50 L 350 350 M 400 50 L 400 350" />
+                </g>
+
+                <!-- Dictionary Vector (H-Space) -->
+                <line x1="50" y1="350" x2="400" y2="60" stroke="#fff" stroke-width="3" stroke-dasharray="10 5" marker-end="url(#arrow-h)" />
+                <text x="380" y="50" fill="#fff" font-size="12" font-weight="bold">BIASED DICTIONARY (H)</text>
+
+                <!-- Majority Cluster (Cyan) - Balanced/Low Error -->
+                <g class="majority-cluster">
+                    <!-- Points -->
+                    <circle cx="120" cy="280" r="4" fill="var(--accent-fair)" />
+                    <circle cx="180" cy="240" r="4" fill="var(--accent-fair)" />
+                    <circle cx="210" cy="190" r="4" fill="var(--accent-fair)" />
+                    <circle cx="260" cy="160" r="4" fill="var(--accent-fair)" />
+                    <circle cx="300" cy="120" r="4" fill="var(--accent-fair)" />
+                    
+                    <!-- Projections (short lines) -->
+                    <line x1="120" y1="280" x2="135" y2="280" stroke="var(--accent-fair)" stroke-width="1" opacity="0.4" />
+                    <line x1="210" y1="190" x2="225" y2="192" stroke="var(--accent-fair)" stroke-width="1" opacity="0.4" />
+                    <text x="120" y="320" fill="var(--accent-fair)" font-size="10" font-weight="bold">MAJORITY CLUSTER (70%)</text>
+                    <text x="120" y="335" fill="var(--accent-fair)" font-size="8" opacity="0.7">OPTIMIZED REPRESENTATION</text>
+                </g>
+
+                <!-- Minority Cluster (Pink) - High Distortion -->
+                <g class="minority-cluster">
+                    <!-- Points -->
+                    <circle cx="380" cy="280" r="5" fill="var(--accent-acc)" class="pulse-point" />
+                    <circle cx="410" cy="260" r="5" fill="var(--accent-acc)" class="pulse-point" />
+                    <circle cx="430" cy="300" r="5" fill="var(--accent-acc)" class="pulse-point" />
+                    
+                    <!-- Distortion Vectors (long lines) -->
+                    <line x1="380" y1="280" x2="310" y2="130" stroke="var(--accent-acc)" stroke-width="2" stroke-dasharray="4 2" class="error-line" />
+                    <line x1="410" y1="260" x2="340" y2="110" stroke="var(--accent-acc)" stroke-width="2" stroke-dasharray="4 2" class="error-line" />
+                    
+                    <text x="310" y="320" fill="var(--accent-acc)" font-size="10" font-weight="bold">MINORITY GROUP (30%)</text>
+                    <text x="310" y="335" fill="var(--accent-acc)" font-size="8" opacity="0.7">UNSEEN DISTORTION (2.5x ERROR)</text>
+                    <text x="350" y="190" fill="var(--accent-acc)" font-size="12" font-weight="bold" transform="rotate(-65 350 190)">DISTORTION</text>
+                </g>
+
+                <!-- Annotations -->
+                <rect x="55" y="55" width="120" height="25" fill="rgba(0,0,0,0.5)" stroke="var(--accent-fair)" stroke-width="1" />
+                <text x="65" y="72" fill="var(--accent-fair)" font-size="10" font-family="monospace">GLOBAL_OPTIM: ON</text>
+                
+                <defs>
+                    <marker id="arrow-h" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#fff" />
+                    </marker>
+                    
+                    <style>
+                        @keyframes pulse {
+                            0% { r: 5; opacity: 1; }
+                            50% { r: 8; opacity: 0.6; }
+                            100% { r: 5; opacity: 1; }
+                        }
+                        @keyframes flow {
+                            to { stroke-dashoffset: -20; }
+                        }
+                        .pulse-point { animation: pulse 2s infinite ease-in-out; }
+                        .error-line { animation: flow 2s infinite linear; stroke-dashoffset: 0; }
+                    </style>
+                </defs>
+            </svg>
+        </div>
+    </div>
+</div>

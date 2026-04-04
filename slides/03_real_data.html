@@ -1,0 +1,51 @@
+<div class="slide">
+    <h2 class="slide-title">El Problema en Datos Reales</h2>
+    <div class="slide-grid" style="grid-template-columns: 1fr; grid-template-rows: auto 1fr;">
+        <div class="slide-text" style="font-size: 1.2rem; margin-bottom: 40px;">
+            <p>Análisis de 5 datasets demostrando la disparidad de NMF estándar (Error de Reconstrucción Relativo por Grupo):</p>
+        </div>
+        <div class="slide-visual">
+            <svg width="1000" height="400" viewBox="0 0 1000 400">
+                <!-- X Axis -->
+                <line x1="100" y1="350" x2="900" y2="350" stroke="#475569" stroke-width="2" />
+                
+                <!-- Dataset Labels -->
+                <text x="180" y="380" text-anchor="middle" fill="#94a3b8" font-size="12">Adult Census</text>
+                <text x="340" y="380" text-anchor="middle" fill="#94a3b8" font-size="12">Heart Disease</text>
+                <text x="500" y="380" text-anchor="middle" fill="#94a3b8" font-size="12">German Credit</text>
+                <text x="660" y="380" text-anchor="middle" fill="#94a3b8" font-size="12">Bank Marketing</text>
+                <text x="820" y="380" text-anchor="middle" fill="#94a3b8" font-size="12">20 Newsgroups</text>
+                
+                <!-- Bars (Representative visualization of the asymmetry) -->
+                <!-- Adult Census -->
+                <rect x="150" y="250" width="30" height="100" fill="var(--accent-fair)" opacity="0.6" /> <!-- Men -->
+                <rect x="185" y="150" width="30" height="200" fill="var(--accent-acc)" opacity="0.8" /> <!-- Women -->
+                <text x="200" y="140" fill="var(--accent-acc)" font-size="12" font-weight="bold">MAX DISPARITY</text>
+                
+                <!-- Heart Disease -->
+                <rect x="310" y="200" width="30" height="150" fill="var(--accent-fair)" opacity="0.6" />
+                <rect x="345" y="180" width="30" height="170" fill="var(--accent-acc)" opacity="0.8" />
+                
+                <!-- German Credit -->
+                <rect x="470" y="220" width="30" height="130" fill="var(--accent-fair)" opacity="0.6" />
+                <rect x="505" y="190" width="30" height="160" fill="var(--accent-acc)" opacity="0.8" />
+
+                <!-- Bank Marketing -->
+                <rect x="630" y="230" width="30" height="120" fill="var(--accent-fair)" opacity="0.6" />
+                <rect x="665" y="195" width="30" height="155" fill="var(--accent-acc)" opacity="0.8" />
+                
+                <!-- 20 Newsgroups -->
+                <rect x="790" y="240" width="30" height="110" fill="var(--accent-fair)" opacity="0.6" />
+                <rect x="825" y="210" width="30" height="140" fill="var(--accent-acc)" opacity="0.8" />
+                
+                <!-- Legend -->
+                <g transform="translate(800, 50)">
+                    <rect width="15" height="15" fill="var(--accent-fair)" />
+                    <text x="25" y="12" fill="#fff" font-size="12">Grupo Mayoritario</text>
+                    <rect y="25" width="15" height="15" fill="var(--accent-acc)" />
+                    <text x="25" y="37" fill="#fff" font-size="12">Grupo Minoritario</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+</div>

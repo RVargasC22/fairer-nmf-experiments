@@ -1,0 +1,301 @@
+:root {
+    --bg-color: #05070a;
+    --text-color: #e0e6ed;
+    --accent-fair: #00f2ea;
+    --accent-acc: #ff0055;
+    --accent-gold: #ffbe0b;
+    --hud-bg: rgba(15, 23, 42, 0.7);
+    --hud-border: rgba(148, 163, 184, 0.2);
+    --slide-width: 1280px;
+    --slide-height: 720px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Background Effects */
+.mesh-gradient {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 75% 25%, rgba(0, 242, 234, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 25% 75%, rgba(255, 0, 85, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, var(--bg-color) 100%);
+    z-index: -2;
+    filter: blur(100px);
+}
+
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* HUD System */
+.hud-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: linear-gradient(180deg, var(--hud-bg), transparent);
+    border-bottom: 1px solid var(--hud-border);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.hud-bottom {
+    padding: 20px 40px;
+    background: linear-gradient(0deg, var(--hud-bg), transparent);
+    border-top: 1px solid var(--hud-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.value {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* Slide Viewport */
+#presentation-hub {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#slide-viewport {
+    width: var(--slide-width);
+    aspect-ratio: 16 / 9;
+    max-width: 95vw;
+    max-height: 80vh;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--hud-border);
+    box-shadow: 0 0 50px rgba(0, 242, 234, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Slide Content Transitioning */
+#slide-content {
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.4s ease-in-out, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-exit {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.slide-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Progress & Nav */
+.progress-container {
+    flex: 1;
+    height: 2px;
+    background: var(--hud-border);
+    margin: 0 40px;
+    max-width: 400px;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-fair), var(--accent-acc));
+    box-shadow: 0 0 10px var(--accent-fair);
+    transition: width 0.3s ease;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.slide-counter {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+#current-slide { color: var(--accent-fair); }
+.separator { color: var(--hud-border); margin: 0 5px; }
+
+button {
+    background: transparent;
+    border: 1px solid var(--hud-border);
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+button:hover {
+    border-color: var(--accent-fair);
+    background: rgba(0, 242, 234, 0.05);
+}
+
+button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.keyboard-hint {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Slide Styles (To be used in fragments) */
+.slide {
+    width: 100%;
+    height: 100%;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+h1, h2 {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+}
+
+.slide-title {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(90deg, #fff, var(--accent-fair));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 2px solid var(--accent-fair);
+    padding-bottom: 10px;
+}
+
+.slide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    height: 100%;
+}
+
+.slide-text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+}
+
+.slide-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Utility Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating { animation: float 6s ease-in-out infinite; }
+
+/* Results Plot HUD Frame */
+.plot-frame {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--hud-border);
+    border-radius: 12px;
+    padding: 15px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.plot-frame:hover {
+    border-color: var(--accent-fair);
+    box-shadow: 0 0 40px rgba(0, 242, 234, 0.1);
+}
+
+.plot-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.hud-tag {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-family: 'JetBrains Mono';
+    font-size: 0.6rem;
+    color: var(--accent-gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    z-index: 20;
+}
+
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-fair), transparent);
+    opacity: 0.3;
+    animation: scan 4s linear infinite;
+    z-index: 10;
+}
+
+@keyframes scan {
+    0% { top: 10%; }
+    100% { top: 90%; }
+}
+

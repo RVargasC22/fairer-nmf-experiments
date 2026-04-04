@@ -1,0 +1,30 @@
+<div class="slide">
+    <h2 class="slide-title">¿Por qué es Difícil? — Retos Técnicos</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <ul style="font-size: 1.3rem;">
+                <li style="margin-bottom: 2rem;">
+                    <strong>No Diferenciabilidad:</strong> La función <code>max()</code> tiene "puntas". El gradiente no está definido donde dos grupos tienen el mismo error.
+                </li>
+                <li style="margin-bottom: 2rem;">
+                    <strong>No Convexidad:</strong> El problema global de NMF no es convexo (solo en subproblemas W o H).
+                </li>
+                <li style="margin-bottom: 2rem;">
+                    <strong>Restricciones de No-Negatividad:</strong> Impiden el uso directo de optimizadores estándar sin proyección.
+                </li>
+            </ul>
+        </div>
+        <div class="slide-visual">
+            <svg width="400" height="300" viewBox="0 0 400 300">
+                <!-- Max function visualization (Spiky) -->
+                <path d="M 50 250 L 150 100 L 250 180 L 350 50" fill="none" stroke="var(--accent-acc)" stroke-width="4" />
+                <circle cx="150" cy="100" r="8" fill="#fff" stroke="var(--accent-acc)" stroke-width="2" />
+                <circle cx="250" cy="180" r="8" fill="#fff" stroke="var(--accent-acc)" stroke-width="2" />
+                
+                <text x="150" y="80" text-anchor="middle" fill="#fff" font-size="14">No Diferenciable</text>
+                <text x="50" y="270" fill="#64748b" font-size="12">Iteración</text>
+                <text x="20" y="50" fill="#64748b" font-size="12">Max Error</text>
+            </svg>
+        </div>
+    </div>
+</div>

@@ -9,3 +9,7 @@ __pycache__/
 *.log
 2411.09847v3.pdf
 Investigación Fairer-NMF*.md
+.agents
+.claude
+.gitignore
+speech.md

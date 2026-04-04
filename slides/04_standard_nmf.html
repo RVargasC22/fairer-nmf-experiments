@@ -1,0 +1,42 @@
+<div class="slide">
+    <h2 class="slide-title">NMF Estándar — Reconstrucción Global</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <p style="margin-bottom: 2rem;">Minimizar el <span style="color: var(--accent-fair); font-weight: 700;">Error Global de Reconstrucción</span>:</p>
+            
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 30px; border-left: 5px solid var(--accent-fair); border-radius: 8px; margin-bottom: 2rem;">
+                <svg width="400" height="80" viewBox="0 0 400 80">
+                    <text x="20" y="50" fill="var(--accent-fair)" font-family="JetBrains Mono" font-size="28">min || X - WH ||²</text>
+                    <text x="20" y="75" fill="#64748b" font-family="JetBrains Mono" font-size="14">s.t. W, H ≥ 0</text>
+                </svg>
+            </div>
+            
+            <ul style="font-size: 1.3rem;">
+                <li><strong>W:</strong> Matriz de coeficientes (pesos).</li>
+                <li><strong>H:</strong> Matriz de tópicos o "diccionario".</li>
+                <li><strong>Rango r:</strong> Controla el nivel de compresión.</li>
+                <li><strong>Reglas Multiplicativas (Lee & Seung 2001):</strong> Actualizaciones alternadas que garantizan no-negatividad.</li>
+            </ul>
+        </div>
+        <div class="slide-visual">
+            <svg width="400" height="400" viewBox="0 0 400 400">
+                <!-- X ≈ W H Visualization -->
+                <rect x="20" y="50" width="120" height="150" fill="rgba(255,255,255,0.05)" stroke="#fff" />
+                <text x="80" y="130" text-anchor="middle" fill="#fff" font-size="24">X</text>
+                
+                <text x="160" y="130" fill="var(--accent-gold)" font-size="40">≈</text>
+                
+                <rect x="180" y="50" width="50" height="150" fill="rgba(0, 242, 234, 0.1)" stroke="var(--accent-fair)" />
+                <text x="205" y="130" text-anchor="middle" fill="var(--accent-fair)" font-size="24">W</text>
+                
+                <rect x="240" y="50" width="120" height="50" fill="rgba(255, 0, 85, 0.1)" stroke="var(--accent-acc)" />
+                <text x="300" y="80" text-anchor="middle" fill="var(--accent-acc)" font-size="24">H</text>
+                
+                <!-- Dimensions -->
+                <text x="80" y="220" text-anchor="middle" fill="#64748b" font-size="12">n x d</text>
+                <text x="205" y="220" text-anchor="middle" fill="#64748b" font-size="12">n x r</text>
+                <text x="300" y="120" text-anchor="middle" fill="#64748b" font-size="12">r x d</text>
+            </svg>
+        </div>
+    </div>
+</div>

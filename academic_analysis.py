@@ -198,7 +198,15 @@ for ax, algo_key, color, title in zip(
     )
     for patch in bp["boxes"]:
         patch.set_facecolor(color)
-        patch.set_alpha(0.8)
+        patch.set_alpha(0.6)
+
+    # Individual seed data points (Jittered)
+    for i, lab in enumerate(DS_NAMES):
+        vals = ms_results[lab][algo_key]
+        # Jitter: normal distribution around x-position (i+1) with small std (0.04)
+        x_pos = np.random.normal(i + 1, 0.04, size=len(vals))
+        ax.scatter(x_pos, vals, color=color, alpha=0.9, edgecolor="white", 
+                   linewidth=0.5, s=35, zorder=10, label="Seeds" if i == 0 else "")
 
     ax.set_xticks(range(1, len(DS_NAMES) + 1))
     ax.set_xticklabels([d.replace(" ", "\n") for d in DS_NAMES], fontsize=9)
@@ -374,7 +382,7 @@ else:
             # Per-group accuracy
             acc_per_group = []
             for g in groups:
-                if len(g) > 0 and len(np.unique(y[g])) > 1:
+                if len(g) > 0:
                     acc_per_group.append(accuracy_score(y[g], y_pred[g]))
                 else:
                     acc_per_group.append(float("nan"))

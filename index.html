@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fairer-NMF: Factores Equitativos para Decisiones Reales</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <!-- Google Fonts: Orbitron for titles, Inter for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Ambient Background -->
+    <div class="mesh-gradient"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- HUD (Heads-Up Display) -->
+    <header class="hud-top">
+        <div class="project-info">
+            <span class="label">PROJECT</span>
+            <span class="value">FAIRER-NMF</span>
+        </div>
+        <div class="presenter-info">
+            <span class="label">SPEAKER</span>
+            <span class="value">Junior Vargas Cano</span>
+        </div>
+        <div class="session-info">
+            <span class="label">SESSION</span>
+            <span class="value">ML_FINAL_2026</span>
+        </div>
+    </header>
+
+    <!-- Main Slide Container -->
+    <main id="presentation-hub">
+        <div id="slide-viewport">
+            <!-- Slides will be injected here -->
+            <div id="slide-content"></div>
+        </div>
+    </main>
+
+    <!-- Navigation HUD -->
+    <footer class="hud-bottom">
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div class="nav-controls">
+            <button id="prev-btn" title="Anterior (←)">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <div class="slide-counter">
+                <span id="current-slide">01</span>
+                <span class="separator">/</span>
+                <span id="total-slides">24</span>
+            </div>
+            <button id="next-btn" title="Siguiente (→ / Space)">
+                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+        </div>
+        <div class="keyboard-hint">Use [←][→] or [SPACE]</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/loader.js"></script>
+</body>
+</html>

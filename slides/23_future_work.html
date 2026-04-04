@@ -1,0 +1,34 @@
+<div class="slide">
+    <h2 class="slide-title">Limitaciones y Trabajo Futuro</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <h3 style="color: var(--accent-acc); margin-bottom: 1rem;">Limitaciones Actuales:</h3>
+            <ul style="font-size: 1rem; margin-bottom: 2rem;">
+                <li style="margin-bottom: 1rem;">Escalabilidad de AM (Inviable en datasets de producción masivos).</li>
+                <li style="margin-bottom: 1rem;">No hay control explícito del trade-off (Falta un λ de ajuste).</li>
+                <li>Requiere conocer el atributo sensible de cada muestra.</li>
+            </ul>
+            
+            <h3 style="color: var(--accent-fair); margin-bottom: 1rem;">Próximos Pasos:</h3>
+            <ul style="font-size: 1rem;">
+                <li style="margin-bottom: 1rem;">NMF Tensorial Equitativo (Datos temporales).</li>
+                <li style="margin-bottom: 1rem;">Versión Online de MU (Streaming / IoT).</li>
+                <li>Grupos definidos por disparidad observada (Sin etiquetas).</li>
+            </ul>
+        </div>
+        <div class="slide-visual">
+            <svg width="400" height="300" viewBox="0 0 400 300">
+                <!-- Future visualization (Arrow pointing right/up) -->
+                <path d="M 50 250 L 300 50" fill="none" stroke="var(--accent-gold)" stroke-width="4" marker-end="url(#arrow-future)" />
+                <rect x="250" y="20" width="80" height="40" fill="rgba(255, 190, 11, 0.1)" stroke="var(--accent-gold)" stroke-width="2" />
+                <text x="290" y="45" text-anchor="middle" fill="#fff" font-size="12">FUTURO</text>
+                
+                <defs>
+                    <marker id="arrow-future" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L9,3 z" fill="var(--accent-gold)" />
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+    </div>
+</div>

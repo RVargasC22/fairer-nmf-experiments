@@ -1,0 +1,25 @@
+<div class="slide">
+    <h2 class="slide-title">Convergencia por Grupos</h2>
+    <div class="slide-grid">
+        <div class="slide-text">
+            <p>La estabilidad del algoritmo es crítica para asegurar que el balance de equidad no sea un subproducto del ruido.</p>
+            <ul style="margin-top: 20px; font-size: 1.2rem; color: #94a3b8;">
+                <li><strong style="color: var(--accent-fair);">MU (Multiplicative Updates):</strong> Muestra una convergencia suave y monótona en todos los datasets (~50-100 iteraciones).</li>
+                <li style="margin-top: 15px;"><strong style="color: var(--accent-acc);">AM (Alternating Minimization):</strong> Más volátil y sensible a la inicialización, especialmente en datasets dispersos como 20NG.</li>
+                <li style="margin-top: 15px;"><strong style="color: var(--accent-gold);">Hallazgo:</strong> Ambos algoritmos alcanzan estados estacionarios donde la pérdida por grupo se ecualiza.</li>
+            </ul>
+        </div>
+        <div class="slide-visual" style="flex-direction: column; gap: 20px;">
+            <div class="plot-frame">
+                <div class="hud-tag">SISTEMA: FAIRER-NMF MU</div>
+                <div class="scan-line"></div>
+                <img src="results/plots/04_convergence_mu.png" alt="Convergencia MU">
+            </div>
+            <div class="plot-frame">
+                <div class="hud-tag">SISTEMA: FAIRER-NMF AM</div>
+                <div class="scan-line"></div>
+                <img src="results/plots/05_convergence_am.png" alt="Convergencia AM" style="max-height: 250px; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+</div>
